@@ -1,12 +1,12 @@
-var webpack = require('webpack');
-var path = require('path');
-var buildPath = path.resolve(__dirname, 'build');
-var nodeModulesPath = path.resolve(__dirname, 'node_modules');
-var TransferWebpackPlugin = require('transfer-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var AppCachePlugin = require('appcache-webpack-plugin');
+const webpack               = require('webpack');
+const path                  = require('path');
+const buildPath             = path.resolve(__dirname, 'build');
+const nodeModulesPath       = path.resolve(__dirname, 'node_modules');
+const TransferWebpackPlugin = require('transfer-webpack-plugin');
+const ExtractTextPlugin     = require('extract-text-webpack-plugin');
+const AppCachePlugin        = require('appcache-webpack-plugin');
 
-var config = {
+const config = {
   entry: [
     path.join(__dirname, '/src/app/app.jsx'),
     path.join(__dirname, '/src/app/app.scss')
@@ -44,7 +44,16 @@ var config = {
 
     new AppCachePlugin({
       cache: ['https://fonts.googleapis.com/css?family=Roboto:400,300,500', 'https://fonts.googleapis.com/icon?family=Material+Icons']
-    })
+    }),
+
+    new webpack.DefinePlugin({
+      process: {
+        env: {
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+          BOSH_URL: JSON.stringify(process.env.BOSH_URL),
+        },
+      },
+    }),
   ],
   module: {
     preLoaders: [
